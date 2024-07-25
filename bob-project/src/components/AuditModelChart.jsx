@@ -1,6 +1,6 @@
 import { React, useState, useRef } from "react"
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, layouts } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend);
 import { Button } from "./ui/button"
@@ -30,17 +30,11 @@ function AuditModelChart(props) {
     const GPT4V_ENDPOINT = "https://auditreport.openai.azure.com/openai/deployments/Azure-AIModel/chat/completions?api-version=2024-02-15-preview";
 
     const [chartData, setChartData] = useState({
-        labels: [],
+        labels: [findings, recommendation],
         datasets: [
             {
-                data: [],
+                data: recommendation,
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
                 ],
                 borderWidth: 1,
             },
@@ -152,12 +146,23 @@ Provide the cleaned version do not do formatting  ,  while maintaining the origi
 
             console.log(text);
             const analysisChecklist = `
-     Analyze the following text and generate data for a chart. 
-        Return the result as a JSON object with 'labels' and 'data' arrays. 
-        The 'labels' should be categories or names, and 'data' should be corresponding numeric values.
-        Text: ${text}
-    Format the response as JSON with "labels"  , "data" arrays. Do not use any markdown formatting in your response.
-  `
+    Analyze the following audit text and generate data for a pie chart. Follow these strict guidelines:
+
+    1. Identify 5 to 7 key audit areas or findings from the text.
+    2. For each area, assign a numeric value based on its significance or frequency in the audit report. Use a scale of 1-100, where higher numbers indicate greater significance.
+    3. Return ONLY a valid JSON object with two arrays: 'labels' for audit areas and 'data' for corresponding significance values.
+    4. The JSON structure must be exactly as follows:
+       {
+         "labels": ["Audit Area 1", "Audit Area 2", "Audit Area 3", ...],
+         "data": [value1, value2, value3, ...]
+       }
+    5. Ensure all values in the 'data' array are numbers between 1 and 100.
+    6. Do not include any explanations, markdown, or additional text outside the JSON object.
+
+    Audit text to analyze:
+    ${text}
+
+    Remember, your entire response must be a valid JSON object and nothing else. Do not use any markdown formatting in your response.`;
             const header = {
                 "Content-Type": "application/json",
                 "api-key": GPT4V_KEY,
@@ -199,16 +204,15 @@ Provide the cleaned version do not do formatting  ,  while maintaining the origi
             const parsedResponse = JSON.parse(generatedText)
             console.log(parsedResponse);
             return {
-                findings: parsedResponse.labels,
-                recommendations: parsedResponse.data,
-
+                labels: parsedResponse.labels,
+                data: parsedResponse.data,
             }
         } catch (error) {
             console.error("Error generating or parsing AI response:", error)
             console.log("Raw AI response:", response.text())
             return {
-                findings: ["Error generating findings"],
-                recommendations: ["Error generating recommendations"],
+                labels: ["Error generating findings"],
+                data: ["Error generating recommendations"],
             }
         }
     }
@@ -230,28 +234,41 @@ Provide the cleaned version do not do formatting  ,  while maintaining the origi
             const auditText = filePath
 
             // Perform AI-based analysis
-            const { findings, recommendations, conclusion } =
+            const { labels, data } =
                 await recommedationModel(auditText)
-            setIsLoading(false)
-            setFindings(findings)
-            setRecommendation(recommendations)
-            setConclusion(conclusion)
 
-            console.log(auditText)
-            console.log("Audit Results:")
-            console.log("Findings:")
-            findings.forEach((finding, index) =>
-                console.log(`${index + 1}. ${finding}`),
-            )
-            console.log("\nRecommendations:")
-            recommendations.forEach((recommendation, index) =>
-                console.log(`${index + 1}. ${recommendation}`),
-            )
-            console.log("\nConclusion:")
-            console.log(conclusion)
+            console.log(labels)
+            console.log(data);
+            setIsLoading(false)
+            setFindings(labels)
+            setRecommendation(data)
+            console.log(labels)
+            console.log(data)
+            const totalItems = labels.length;
+            const colors = generateRandomColors(totalItems);
+            setChartData({
+                labels: labels,
+                datasets: [{
+
+                    data: data,
+                    backgroundColor: colors.map(color => color[0]),
+                }],
+            });
+            console.log(auditText);
         } catch (error) {
             console.error("Error processing audit report:", error)
         }
+    }
+
+    function generateRandomColors(count) {
+        const generateColor = () => {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return [`rgba(${r}, ${g}, ${b}, 0.7)`, `rgba(${r}, ${g}, ${b}, 1)`];
+        };
+
+        return Array.from({ length: count }, generateColor);
     }
 
     const options = {
@@ -259,6 +276,7 @@ Provide the cleaned version do not do formatting  ,  while maintaining the origi
         plugins: {
             legend: {
                 position: 'top',
+
             },
             title: {
                 display: true,
@@ -303,8 +321,9 @@ Provide the cleaned version do not do formatting  ,  while maintaining the origi
                     <IoSparkles size={20} /> Generate Findings
                 </Button>
             </div>
-
-            <Pie data={chartData} options={options} />
+            <div className="pie-chart">
+                <Pie data={chartData} options={options} />
+            </div>
 
 
         </>
