@@ -1,0 +1,295 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		--background: 0 0% 100%;
+		--foreground: 222.2 84% 4.9%;
+
+		--card: 0 0% 100%;
+		--card-foreground: 222.2 84% 4.9%;
+
+		--popover: 0 0% 100%;
+		--popover-foreground: 222.2 84% 4.9%;
+
+		--primary: 222.2 47.4% 11.2%;
+		--primary-foreground: 210 40% 98%;
+
+		--secondary: 210 40% 96.1%;
+		--secondary-foreground: 222.2 47.4% 11.2%;
+
+		--muted: 210 40% 96.1%;
+		--muted-foreground: 215.4 16.3% 46.9%;
+
+		--accent: 210 40% 96.1%;
+		--accent-foreground: 222.2 47.4% 11.2%;
+
+		--destructive: 0 84.2% 60.2%;
+		--destructive-foreground: 210 40% 98%;
+
+		--border: 214.3 31.8% 91.4%;
+		--input: 214.3 31.8% 91.4%;
+		--ring: 222.2 84% 4.9%;
+
+		--radius: 0.5rem;
+	}
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
+		font-family: "Quicksand", sans-serif;
+		font-weight: 500;
+	}
+}
+
+.result-box {
+	justify-content: space-between;
+}
+
+.marginx {
+	margin: 10px;
+	display: block;
+}
+
+.btn {
+	gap: 10px;
+}
+.btn:hover {
+	background-color: hsl(0 0% 90%);
+	cursor: pointer;
+}
+
+.bg-gray thead {
+	background-color: black;
+	color: white;
+	border-radius: 20px;
+	margin: 10px;
+}
+.bold {
+	font-weight: bolder;
+	font-size: 18px;
+}
+.table-container {
+	perspective: 1000px;
+	padding: 40px;
+	font-family: Arial, sans-serif;
+}
+
+.audit-table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	background: #fff;
+	border-radius: 10px;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+
+	transition: all 0.3s ease;
+}
+
+.audit-table:hover {
+	transform: rotateX(0deg);
+	box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+}
+
+.audit-table thead {
+	background: #ffaaaa;
+	color: #820300;
+	font-family: "Quicksand", sans-serif;
+	font-weight: bolder;
+}
+
+.audit-table th,
+.audit-table td {
+	padding: 15px;
+	text-align: left;
+	border-bottom: 1px solid #eee;
+}
+
+.audit-table th {
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 14px;
+	letter-spacing: 1px;
+}
+
+.audit-table tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.audit-table tbody tr:nth-child(even) {
+	background-color: #f8f8f8;
+}
+
+.audit-table ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.audit-table li {
+	margin-bottom: 10px;
+}
+
+.audit-table li:last-child {
+	margin-bottom: 0;
+}
+
+.table-data {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	font-family: "Quicksand", sans-serif;
+}
+
+.table-data:nth-child(even) {
+	background-color: gray;
+}
+
+@media (max-width: 768px) {
+	.audit-table {
+		font-size: 14px;
+	}
+
+	.audit-table th,
+	.audit-table td {
+		padding: 10px;
+	}
+}
+
+.black {
+	background-color: #1a5319;
+	color: white;
+}
+
+.conclusion {
+	border: solid 1px gray;
+	padding: 10px;
+	background-color: #987d9a;
+	color: #fefbd8;
+	border-radius: 10px;
+}
+
+.conclusion h1 {
+	font-size: 25px;
+	font-weight: bolder;
+	margin-bottom: 20px;
+	color: #fefbd8;
+}
+
+.App-hears {
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border: solid 1px gray;
+	border-radius: 20px;
+}
+
+.draganddrop {
+	padding: 70px;
+	width: 100%;
+	align-items: center;
+	display: flex;
+}
+
+/* Container for the drag-and-drop area */
+.dropzone {
+	width: 100%;
+	max-width: 600px;
+	height: 200px;
+	margin: 50px auto;
+	padding: 20px;
+	border: 2px dashed #cccccc;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	background-color: #f9f9f9;
+	color: #333;
+	transition: border 0.3s ease-in-out;
+}
+
+.dropzone.dragover {
+	border-color: #4a90e2;
+	background-color: #eaf3fc;
+}
+
+.dropzone p {
+	font-size: 1.2rem;
+	color: #666;
+}
+
+/* Styling for the file input (hidden) */
+.dropzone input[type="file"] {
+	display: none;
+}
+
+.file-list {
+	margin-top: 20px;
+	list-style: none;
+	padding: 0;
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.file-list li {
+	padding: 10px;
+	margin-bottom: 10px;
+	font-size: 1rem;
+	color: #333;
+	background-color: #f1f1f1;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	display: flex;
+	align-items: center;
+}
+
+.file-list li:last-child {
+	margin-bottom: 0;
+}
+
+.file-list li img {
+	width: 40px;
+	height: 40px;
+	margin-right: 10px;
+}
+
+.file-list li .file-info {
+	display: flex;
+	flex-direction: column;
+}
+
+.file-list li .file-info .file-name {
+	font-weight: bold;
+	color: #555;
+}
+
+.file-list li .file-info .file-size {
+	font-size: 0.9rem;
+	color: #888;
+}
+
+.width-full {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.btn-wide {
+	width: 50%;
+	box-shadow:
+		rgba(0, 0, 0, 0.25) 0px 54px 55px,
+		rgba(0, 0, 0, 0.12) 0px -12px 30px,
+		rgba(0, 0, 0, 0.12) 0px 4px 6px,
+		rgba(0, 0, 0, 0.17) 0px 12px 13px,
+		rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
