@@ -83,6 +83,33 @@ https://github.com/hitesh-mehta/SurakshaAudits/assets/72137241/3d7c43c3-0c30-4cf
 3. **Training:** Avail our training sessions to get your team acquainted with the system.
 4. **Go Live:** Start using SurakshaAudit to automate and enhance your auditing process.
 
+## Development
+
+A React + TypeScript + Vite + Shadcn template has been used for building apps with Radix UI and Tailwind CSS.
+
+## Usage
+
+### To install
+
+```bash
+yarn
+```
+
+### Run in development mode
+
+```bash
+yarn dev
+```
+
+## Features
+
+- React + Typescript + Vite
+- Radix UI Primitives
+- Tailwind CSS
+- Icons from [Lucide](https://lucide.dev)
+- Dark mode
+- Tailwind CSS class sorting, merging and linting.
+
 For more information, visit our website or contact our support team [here](mailto::urbanai0209@gmail.com).
 
 ---
