@@ -23,7 +23,7 @@ function AuditModel(props) {
     const [conclusion, setConclusion] = useState()
     const [isLoading, setIsLoading] = useState(false)
     const genAI = new GoogleGenerativeAI(
-        "AIzaSyBI5B23RXprsQeqPuER3xVzFDzmp8-ZM28",
+        "Api",
     )
 
     async function analyzeAuditReport() {

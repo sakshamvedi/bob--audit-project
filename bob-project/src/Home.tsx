@@ -21,9 +21,8 @@ function Home({}: Props) {
 	}
 	return (
 		<div className="mx-20 my-10">
-			{/* <AuditModelAzure propsdata={Input} /> */}
-			<AuditModelChart propsdata={Input} />
-			{/* <CorbonDetector /> */}
+			<AuditModelAzure propsdata={Input} />
+			{/* <AuditModelChart propsdata={Input} /> */}
 		</div>
 	)
 }

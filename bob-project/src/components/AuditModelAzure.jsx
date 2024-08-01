@@ -23,7 +23,7 @@ function AuditModelAzure(props) {
     const [findings, setFindings] = useState([])
     const [conclusion, setConclusion] = useState()
     const [isLoading, setIsLoading] = useState(false)
-    const GPT4V_KEY = "c8581073488a45fb88bbb9c4c692bc61";
+    const GPT4V_KEY = "api";
     const GPT4V_ENDPOINT = "https://auditreport.openai.azure.com/openai/deployments/Azure-AIModel/chat/completions?api-version=2024-02-15-preview";
 
     const [files, setFiles] = useState([]);
